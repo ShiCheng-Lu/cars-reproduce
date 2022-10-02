@@ -108,6 +108,10 @@ def rayLineIntersect(ray, line):
     b_num = dx * rayYdiff - dy * rayXdiff
 
     denum = lineXdiff * dy - lineYdiff * dx
+
+    if (denum == 0):
+        return None
+
     a = a_num / denum # dist from ray to intersect
     b = b_num / denum # dist from point a of line
     

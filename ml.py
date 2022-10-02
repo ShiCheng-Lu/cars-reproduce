@@ -142,6 +142,7 @@ def sim(models):
             cars[m].draw(draw_surface, '#00ff00')
 
     for i in range(1, 150):
+        # intersection calculation are costly, multi threading to increase performance
         sensors = pool.map(getSensor, cars)
         
         for m in range(length):
@@ -158,13 +159,17 @@ def sim(models):
         
         if np.all(scores):
             break
+    
+    for m in range(length):
+        if (scores[m] == 0):
+            scores[m] = 150
 
     return scores
 
 def ml_main():
     x = GeneticAlgorithm(create_model, population=30, fitness=fitness, sim=sim).load("models")
 
-    for i in range(20):
+    for i in range(5):
         x.generation()
 
     x.save("models")
